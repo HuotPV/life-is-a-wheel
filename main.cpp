@@ -28,7 +28,7 @@ int main()
     for (int tStep=0; tStep<4; tStep++)
     {
         cout << "Time step: " << tStep << endl;
-        myWorld.advance();
+        myWorld.nextStep();
         myWorld.printWorld();
         cout << "----" << endl;
     }
