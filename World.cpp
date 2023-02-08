@@ -5,7 +5,7 @@
 #include <vector>
 using namespace std;
 
-World::World() : step(0)
+World::World() : m_step(0)
 {
     /* function that fills in the table */
     for (int iCell=0 ; iCell < HEIGHT*WIDTH ; iCell++)
@@ -102,6 +102,8 @@ void World::nextStep()
     {
         m_cellArray[iCell]->update();
     }
+
+    m_step++;
 }
 
 
