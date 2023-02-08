@@ -2,6 +2,7 @@
 #define DEF_CELL
 #include <iostream> 
 #include <vector>
+#include <fstream>
 
 
 
@@ -13,6 +14,7 @@ class Cell
     void die();
     void birth();
     void printFlux(std::ostream &flux) const;
+    void printOfstream(std::ofstream &flux) const;
     
     void assignNeighbours(std::vector<Cell*> cells);
     int sendStatus() const;

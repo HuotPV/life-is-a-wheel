@@ -3,6 +3,10 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
+#include <fstream>
+#include <iomanip>
+#include <sstream>
+
 using namespace std;
 
 World::World() : m_step(0)
@@ -117,5 +121,34 @@ void World::printWorld()
         {
             cout << endl;
         }
+    }
+}
+
+void World::printWorldFile()
+{
+    string dirOut="/home/pv/Documents/code/cpp/life-is-a-wheel/outputs/";
+    string stencilFile="world-000_step-";
+    ostringstream stepStringStream;
+
+    stepStringStream << std::setfill('0') << std::setw(3) << m_step;
+    string stepString = stepStringStream.str();
+
+    string fileOut = dirOut+stencilFile+stepString+".txt";
+    ofstream outFlux(fileOut);
+    if (outFlux)
+    {
+        for (int iCell=0 ; iCell < HEIGHT*WIDTH ; iCell++)
+        {
+            m_cellArray[iCell]->printOfstream(outFlux);
+
+            if ((iCell+1)%WIDTH == 0)
+            {
+                outFlux << endl;
+            }
+        }
+    }
+    else
+    {
+        cout << "Erreur during output writing." << endl;
     }
 }
