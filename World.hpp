@@ -30,18 +30,4 @@ class World
 };
 
 
-
-
-class Toto
-{
-    /* just a test class*/
-    public:
-    Toto();
-    ~Toto();
-    void printToto();
-
-    protected:
-    std::map<int,Cell*> totoState;
-};
-
 #endif // WORLD

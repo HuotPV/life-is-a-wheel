@@ -5,26 +5,6 @@
 #include <vector>
 using namespace std;
 
-Toto::Toto()
-{
-    totoState[0] = new Cell();
-    totoState[1] = new Cell();
-}
-Toto::~Toto()
-{
-    delete totoState[0];
-    totoState[0] = nullptr;
-    delete totoState[1];
-    totoState[1] = nullptr;
-}
-
-void Toto::printToto()
-{
-    totoState[0]->printFlux(cout);
-    totoState[1]->printFlux(cout);
-    cout << endl;
-}
-
 World::World() : step(0)
 {
     /* function that fills in the table */
