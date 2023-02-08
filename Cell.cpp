@@ -13,34 +13,16 @@ Cell::Cell()
 }
 Cell::~Cell(){--id;} // on décrémente compteur à chaque destruction d'une instance
 
-void Cell::die()
-{
-    isAlive = 0;
-}
-
-void Cell::birth()
-{
-    isAlive = 1;
-}
-
 int Cell::sendStatus() const
 {
     return isAlive;
 }
 
-/*void Cell::assignNeighbours(Cell* cells[8])
-{
-    for (int icell = 0; icell < 8; icell++)
-    {
-        neighbours[icell] = cells[icell];
-    }
-}*/ // version with table of Cell*
-
 void Cell::assignNeighbours(vector<Cell*> cells)
 {
-    for (int icell = 0; icell < 8; icell++)
+    for (int iCell = 0; iCell < 8; iCell++)
     {
-        neighbours[icell] = cells[icell];
+        neighbours[iCell] = cells[iCell];
     }
 } // version with vector of Cell*
 
@@ -54,9 +36,9 @@ void Cell::stepForward()
 {
     int statusNeighbours = 0;
 
-    for (int inb = 0; inb < 8; inb++)
+    for (int iNb = 0; iNb < 8; iNb++)
     {
-        statusNeighbours += neighbours[inb]->sendStatus();
+        statusNeighbours += neighbours[iNb]->sendStatus();
     }
 
     if (isAlive)
