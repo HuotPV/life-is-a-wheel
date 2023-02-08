@@ -23,15 +23,15 @@ World::World() : step(0)
         }
     }
 
-    for (int i=1;i<dimX+1;i++)
+    for (int iLine=1;iLine<dimX+1;iLine++)
     {
-        neighbourhingTable[i][0] = neighbourhingTable[i][dimY];
-        neighbourhingTable[i][dimY+1] = neighbourhingTable[i][1];
+        neighbourhingTable[iLine][0] = neighbourhingTable[iLine][dimY];
+        neighbourhingTable[iLine][dimY+1] = neighbourhingTable[iLine][1];
     }
-    for (int j=1;j<dimY+1;j++)
+    for (int iLine=1;iLine<dimY+1;iLine++)
     {
-        neighbourhingTable[0][j] = neighbourhingTable[dimX][j];
-        neighbourhingTable[dimX+1][j] = neighbourhingTable[1][j];
+        neighbourhingTable[0][iLine] = neighbourhingTable[dimX][iLine];
+        neighbourhingTable[dimX+1][iLine] = neighbourhingTable[1][iLine];
     }
 
     neighbourhingTable[0][0] = neighbourhingTable[dimX][dimY];
@@ -45,10 +45,10 @@ World::World() : step(0)
 
 World::~World()
 {
-    for (int iter=0; iter<dimX*dimY; iter++)
+    for (int iCell=0; iCell<dimX*dimY; iCell++)
     {
-        delete currentState[iter];
-        currentState[iter] = nullptr;
+        delete currentState[iCell];
+        currentState[iCell] = nullptr;
     }
 }
 
@@ -61,71 +61,60 @@ void World::createNeighbourhood()
     int inbtl, inbtm, inbtr, inbbl, inbbm, inbbr, inbml, inbmr;
     int nbrsId[8];
 
-    int iter=0;
-    for (int i=1;i<dimX+1;i++)
+    int iCell=0;
+    for (int iLine=1;iLine<dimX+1;iLine++)
     {
-        for (int j=1;j<dimY+1;j++)
+        for (int iCol=1;iCol<dimY+1;iCol++)
         {
-            neighbourList[0] = neighbourhingTable[i-1][j-1];
-            neighbourList[1] = neighbourhingTable[i-1][j];
-            neighbourList[2] = neighbourhingTable[i-1][j+1];
-            neighbourList[3] = neighbourhingTable[i][j-1];
-            neighbourList[4] = neighbourhingTable[i][j+1];
-            neighbourList[5] = neighbourhingTable[i+1][j-1];
-            neighbourList[6] = neighbourhingTable[i+1][j];
-            neighbourList[7] = neighbourhingTable[i+1][j+1];
+            neighbourList[0] = neighbourhingTable[iLine-1][iCol-1];
+            neighbourList[1] = neighbourhingTable[iLine-1][iCol];
+            neighbourList[2] = neighbourhingTable[iLine-1][iCol+1];
+            neighbourList[3] = neighbourhingTable[iLine][iCol-1];
+            neighbourList[4] = neighbourhingTable[iLine][iCol+1];
+            neighbourList[5] = neighbourhingTable[iLine+1][iCol-1];
+            neighbourList[6] = neighbourhingTable[iLine+1][iCol];
+            neighbourList[7] = neighbourhingTable[iLine+1][iCol+1];
 
-            for (int icell = 0; icell<8; icell++)
+            for (int iNb = 0; iNb<8; iNb++)
             {
-                neighbours.push_back(currentState[neighbourList[icell]]); // fill the vector with the correct Cell pointers
+                neighbours.push_back(currentState[neighbourList[iNb]]); // fill the vector with the correct Cell pointers
             }
 
-            currentState[iter]->assignNeighbours(neighbours); // give the vector of Cell pointers to the Cell
+            currentState[iCell]->assignNeighbours(neighbours); // give the vector of Cell pointers to the Cell
 
-            for (int icell = 0; icell<8; icell++)
+            for (int iNb = 0; iNb<8; iNb++)
             {
                 neighbours.pop_back(); //clear the vector ...
             }
-            iter++;
+            iCell++;
         }
     }
-
-    for (int iter= 0; iter < dimX*dimY; iter++)
-    {
-
-    }
-
 }
 
 void World::advance()
 {
-    for (int iter=0; iter<dimX*dimY; iter++)
-    {
-            currentState[iter]->sendStatus();
-    }
-
     /* ça ne peut pas fonctionner car je ne recopie pas le tableau d'un pas à l'autre ...*/
     /* faire une copie toute bête demande de recalculer les relations de voisinages ...*/
-    for (int iter=0; iter<dimX*dimY; iter++)
+    for (int iCell=0; iCell<dimX*dimY; iCell++)
     {
-            currentState[iter]->stepForward();
+            currentState[iCell]->stepForward();
     }
 
     /* du coup c'est assez sous optimal, comme il faut que je parcours deux fois le tableau ...*/
-    for (int iter=0; iter<dimX*dimY; iter++)
+    for (int iCell=0; iCell<dimX*dimY; iCell++)
     {
-        currentState[iter]->update();
+        currentState[iCell]->update();
     }
 }
 
 
 void World::printWorld()
 {
-    for (int iter=0; iter<dimX*dimY; iter++)
+    for (int iCell=0; iCell<dimX*dimY; iCell++)
     {
-        currentState[iter]->printFlux(cout);
+        currentState[iCell]->printFlux(cout);
 
-        if ((iter+1)%dimX==0)
+        if ((iCell+1)%dimX==0)
         {
             cout << endl;
         }
