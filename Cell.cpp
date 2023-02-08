@@ -1,6 +1,6 @@
 #include "Cell.hpp"
 #include <vector>
-
+#include <fstream>
 using namespace std;
 
 int Cell::id = 0; // initialisation de l'attribut statique compteur.
@@ -75,4 +75,8 @@ ostream &operator<<( ostream &flux, Cell const& cell)
 void Cell::printFlux(ostream &flux) const
 {
     flux << isAlive;
+}
+void Cell::printOfstream(ofstream &flux) const
+{
+    flux << isAlive << ' ';
 }

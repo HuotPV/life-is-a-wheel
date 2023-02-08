@@ -31,6 +31,7 @@ int main()
         myWorld.nextStep();
         myWorld.printWorld();
         cout << "----" << endl;
+        myWorld.printWorldFile();
     }
 
     cout << "End of run !" << endl;
