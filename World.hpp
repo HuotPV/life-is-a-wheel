@@ -16,12 +16,12 @@ class World
     void nextStep();
 
     protected:
-    int step;
-    constexpr static int WIDTH = 6; // note for myself ... if I want to use this variable to initialize the table currentState, it needs to be static and const.
+    int m_step;
+    constexpr static int WIDTH = 6; // note for myself ... if I want to use this variable to initialize an atribut, it needs to be static and const.
     constexpr static int HEIGHT = 6;
     
-    std::map<int,Cell*> currentState;
-    int neighbourhingTable[WIDTH+2][HEIGHT+2];
+    std::map<int,Cell*> m_cellArray;
+    int m_neighbourhingTable[WIDTH+2][HEIGHT+2];
 };
 
 
