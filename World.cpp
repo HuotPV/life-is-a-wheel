@@ -8,44 +8,41 @@ using namespace std;
 World::World() : step(0)
 {
     /* function that fills in the table */
-    for (int iCell=0 ; iCell < dimX*dimY ; iCell++)
+    for (int iCell=0 ; iCell < HEIGHT*WIDTH ; iCell++)
     {
         currentState[iCell] = new Cell(); // put new Cell pointer in currentState
     }
 
     /* also create the neighbouring table*/
     int iter=0;
-    for (int iLine=1;iLine<dimX+1;iLine++)
+    for (int iLine=1 ; iLine<HEIGHT+1 ; iLine++)
     {
-        for (int iCol=1;iCol<dimY+1;iCol++)
+        for (int iCol=1 ; iCol<WIDTH+1 ; iCol++)
         {
             neighbourhingTable[iLine][iCol]=iter++;
         }
     }
 
-    for (int iLine=1;iLine<dimX+1;iLine++)
+    for (int iLine=1 ; iLine<HEIGHT+1 ; iLine++)
     {
-        neighbourhingTable[iLine][0] = neighbourhingTable[iLine][dimY];
-        neighbourhingTable[iLine][dimY+1] = neighbourhingTable[iLine][1];
+        neighbourhingTable[iLine][0] = neighbourhingTable[iLine][WIDTH];
+        neighbourhingTable[iLine][WIDTH+1] = neighbourhingTable[iLine][1];
     }
-    for (int iLine=1;iLine<dimY+1;iLine++)
+    for (int iLine=1 ; iLine<WIDTH+1 ; iLine++)
     {
-        neighbourhingTable[0][iLine] = neighbourhingTable[dimX][iLine];
-        neighbourhingTable[dimX+1][iLine] = neighbourhingTable[1][iLine];
+        neighbourhingTable[0][iLine] = neighbourhingTable[HEIGHT][iLine];
+        neighbourhingTable[HEIGHT+1][iLine] = neighbourhingTable[1][iLine];
     }
 
-    neighbourhingTable[0][0] = neighbourhingTable[dimX][dimY];
-    neighbourhingTable[dimX+1][0] = neighbourhingTable[1][dimY];
-    neighbourhingTable[dimX+1][dimY+1] = neighbourhingTable[1][1];
-    neighbourhingTable[0][dimY+1] = neighbourhingTable[dimX][1];
-
-
-    cout << endl;
+    neighbourhingTable[0][0] = neighbourhingTable[HEIGHT][WIDTH];
+    neighbourhingTable[HEIGHT+1][0] = neighbourhingTable[1][WIDTH];
+    neighbourhingTable[HEIGHT+1][WIDTH+1] = neighbourhingTable[1][1];
+    neighbourhingTable[0][WIDTH+1] = neighbourhingTable[HEIGHT][1];
 }
 
 World::~World()
 {
-    for (int iCell=0; iCell<dimX*dimY; iCell++)
+    for (int iCell=0 ; iCell<HEIGHT*WIDTH ; iCell++)
     {
         delete currentState[iCell];
         currentState[iCell] = nullptr;
@@ -62,9 +59,9 @@ void World::createNeighbourhood()
     int nbrsId[8];
 
     int iCell=0;
-    for (int iLine=1;iLine<dimX+1;iLine++)
+    for (int iLine=1 ;iLine<HEIGHT+1 ; iLine++)
     {
-        for (int iCol=1;iCol<dimY+1;iCol++)
+        for (int iCol=1 ; iCol<WIDTH+1 ; iCol++)
         {
             neighbourList[0] = neighbourhingTable[iLine-1][iCol-1];
             neighbourList[1] = neighbourhingTable[iLine-1][iCol];
@@ -75,14 +72,14 @@ void World::createNeighbourhood()
             neighbourList[6] = neighbourhingTable[iLine+1][iCol];
             neighbourList[7] = neighbourhingTable[iLine+1][iCol+1];
 
-            for (int iNb = 0; iNb<8; iNb++)
+            for (int iNb = 0 ; iNb<8 ; iNb++)
             {
                 neighbours.push_back(currentState[neighbourList[iNb]]); // fill the vector with the correct Cell pointers
             }
 
             currentState[iCell]->assignNeighbours(neighbours); // give the vector of Cell pointers to the Cell
 
-            for (int iNb = 0; iNb<8; iNb++)
+            for (int iNb = 0 ; iNb<8 ; iNb++)
             {
                 neighbours.pop_back(); //clear the vector ...
             }
@@ -91,17 +88,17 @@ void World::createNeighbourhood()
     }
 }
 
-void World::advance()
+void World::nextStep()
 {
     /* ça ne peut pas fonctionner car je ne recopie pas le tableau d'un pas à l'autre ...*/
     /* faire une copie toute bête demande de recalculer les relations de voisinages ...*/
-    for (int iCell=0; iCell<dimX*dimY; iCell++)
+    for (int iCell=0 ; iCell < HEIGHT*WIDTH ; iCell++)
     {
-            currentState[iCell]->stepForward();
+        currentState[iCell]->stepForward();
     }
 
     /* du coup c'est assez sous optimal, comme il faut que je parcours deux fois le tableau ...*/
-    for (int iCell=0; iCell<dimX*dimY; iCell++)
+    for (int iCell=0 ; iCell < HEIGHT*WIDTH ; iCell++)
     {
         currentState[iCell]->update();
     }
@@ -110,11 +107,11 @@ void World::advance()
 
 void World::printWorld()
 {
-    for (int iCell=0; iCell<dimX*dimY; iCell++)
+    for (int iCell=0 ; iCell < HEIGHT*WIDTH ; iCell++)
     {
         currentState[iCell]->printFlux(cout);
 
-        if ((iCell+1)%dimX==0)
+        if ((iCell+1)%WIDTH == 0)
         {
             cout << endl;
         }

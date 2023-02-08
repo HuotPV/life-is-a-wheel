@@ -13,15 +13,15 @@ class World
     ~World();
     void printWorld();
     void createNeighbourhood();
-    void advance();
+    void nextStep();
 
     protected:
     int step;
-    constexpr static int dimX = 6; // note for myself ... if I want to use this variable to initialize the table currentState, it needs to be static and const.
-    constexpr static int dimY = 6;
+    constexpr static int WIDTH = 6; // note for myself ... if I want to use this variable to initialize the table currentState, it needs to be static and const.
+    constexpr static int HEIGHT = 6;
     
     std::map<int,Cell*> currentState;
-    int neighbourhingTable[dimX+2][dimY+2];
+    int neighbourhingTable[WIDTH+2][HEIGHT+2];
 };
 
 
