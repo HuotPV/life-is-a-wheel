@@ -4,6 +4,7 @@
 #include "Cell.hpp"
 #include <vector>
 #include <map>
+#include <fstream>
 
 class World
 {
@@ -12,14 +13,16 @@ class World
     World();
     ~World();
     void printWorld();
+    void printWorldFile();
     void createNeighbourhood();
     void nextStep();
+    bool isAlive();
 
     protected:
     int m_step;
-    constexpr static int WIDTH = 6; // note for myself ... if I want to use this variable to initialize an atribut, it needs to be static and const.
-    constexpr static int HEIGHT = 6;
-    
+    static int m_id;
+    constexpr static int WIDTH = 160; // note for myself ... if I want to use this variable to initialize an atribut, it needs to be static and const.
+    constexpr static int HEIGHT = 80;
     std::map<int,Cell*> m_cellArray;
     int m_neighbourhingTable[WIDTH+2][HEIGHT+2];
 };
