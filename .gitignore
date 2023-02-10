@@ -1,1 +1,4 @@
 /outputs
+/figs
+/__pycache__
+game_of_life
