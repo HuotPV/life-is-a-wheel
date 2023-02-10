@@ -3,6 +3,7 @@
 #include <ctime>
 #include "World.hpp"
 #include "Cell.hpp"
+#include "BatchOfWorlds.hpp"
 #include <string>
 using namespace std;
 
@@ -11,9 +12,12 @@ int main()
 {
     srand(time(0));
 
-    World myWorld;
-    cout << "myWorld successfully initialized ! " << endl;
+    BatchOfWorlds myBatchOfWorlds;
 
+    myBatchOfWorlds.SimulateAll(myBatchOfWorlds);
+
+
+    /*
     myWorld.createNeighbourhood();
     cout << "Neighbourhood created !" << endl;
     cout << "End of initialization." << endl;
@@ -35,4 +39,5 @@ int main()
     }
 
     cout << "End of run !" << endl;
+    */
 }
