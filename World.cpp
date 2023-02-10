@@ -9,6 +9,8 @@
 
 using namespace std;
 
+int World::m_id = 0; // initialisation de l'attribut statique compteur.
+
 World::World() : m_step(0)
 {
     /* function that fills in the table */
@@ -42,6 +44,8 @@ World::World() : m_step(0)
     m_neighbourhingTable[HEIGHT+1][0] = m_neighbourhingTable[1][WIDTH];
     m_neighbourhingTable[HEIGHT+1][WIDTH+1] = m_neighbourhingTable[1][1];
     m_neighbourhingTable[0][WIDTH+1] = m_neighbourhingTable[HEIGHT][1];
+
+    m_id++;
 }
 
 World::~World()
@@ -127,13 +131,17 @@ void World::printWorld()
 void World::printWorldFile()
 {
     string dirOut="/home/pv/Documents/code/cpp/life-is-a-wheel/outputs/";
-    string stencilFile="world-000_step-";
-    ostringstream stepStringStream;
+    string stencilFile="world-";
 
+    ostringstream worldStringStream;
+    worldStringStream << std::setfill('0') << std::setw(3) << m_id;
+    string worldString = worldStringStream.str();
+
+    ostringstream stepStringStream;
     stepStringStream << std::setfill('0') << std::setw(3) << m_step;
     string stepString = stepStringStream.str();
 
-    string fileOut = dirOut+stencilFile+stepString+".txt";
+    string fileOut = dirOut+stencilFile+worldString+"_step"+stepString+".txt";
     ofstream outFlux(fileOut);
     if (outFlux)
     {
@@ -150,5 +158,24 @@ void World::printWorldFile()
     else
     {
         cout << "Erreur during output writing." << endl;
+    }
+}
+
+bool World::isAlive()
+{
+    int totCell = 0;
+
+    for (int iCell=0 ; iCell < HEIGHT*WIDTH ; iCell++)
+    {
+        totCell += m_cellArray[iCell]->sendStatus();
+    }
+
+    if (totCell > 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
